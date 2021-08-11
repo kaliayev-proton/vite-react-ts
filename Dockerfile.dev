@@ -1,0 +1,15 @@
+FROM node:alpine
+
+WORKDIR '/home/node'
+
+COPY package.json .
+RUN npm config set unsafe-perm true
+RUN npm install --loglevel=warn
+
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+RUN mkdir node_modules/.vite && chmod -R 777 node_modules/.vite
+RUN touch node_modules/.vite/_metadata.json && chmod -R 777 node_modules/.vite/_metadata.json
+
+COPY . .
+
+CMD ["npm", "run", "dev"]
